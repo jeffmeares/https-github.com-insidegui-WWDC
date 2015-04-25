@@ -9,6 +9,9 @@
 import Foundation
 
 private let _internalServiceURL = "http://wwdc.guilhermerambo.me/index.json"
+private let _pastEventsServiceURL = "http://wwdc.guilhermerambo.me:2066/events"
+private let _liveEventServiceURL = "http://wwdc.guilhermerambo.me:2066/live"
+
 private let _SharedStore = DataStore()
 private let _MemoryCacheSize = 500*1024*1024
 private let _DiskCacheSize = 1024*1024*1024
@@ -81,6 +84,43 @@ class DataStore: NSObject {
                         url: jsonSession["url"].string!,
                         year: jsonSession["year"].int!,
                         hd_url: jsonSession["download_hd"].string)
+                    
+                    sessions.append(session)
+                }
+                
+                completionHandler(true, sessions)
+            } else {
+                completionHandler(false, [])
+            }
+        }).resume()
+    }
+    
+    func fetchEvents(completionHandler: fetchSessionsCompletionHandler) {
+        URLSession.dataTaskWithURL(NSURL(string:_pastEventsServiceURL)!, completionHandler: { data, response, error in
+            if data == nil {
+                completionHandler(false, [])
+                return
+            }
+            
+            if let container = JSON(data: data).dictionary {
+                let events = container["events"]!.array!
+                
+                var sessions: [Session] = []
+                
+                for jsonEvent:JSON in events {
+                    var session = Session(date: jsonEvent["subtitle"].string,
+                        description: jsonEvent["description"].string!,
+                        focus: ["(live event)"],
+                        id: 0,
+                        slides: nil,
+                        title: jsonEvent["title"].string!,
+                        track: "Special Events",
+                        url: jsonEvent["stream"].string!,
+                        year: 0,
+                        hd_url: nil)
+                    
+                    session.setSubtitle(jsonEvent["subtitle"].string!)
+                    session.setSpecialEvent(true)
                     
                     sessions.append(session)
                 }

@@ -12,8 +12,10 @@ class VideosHeaderViewController: NSViewController {
     
     @IBOutlet weak var searchBar: NSSearchField!
     @IBOutlet weak var searchBarBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var modeControl: NSSegmentedControl!
     
     var performSearch: ((term: String) -> Void)?
+    var switchMode: ((mode: Int) -> Void)?
     
     class func loadDefaultController() -> VideosHeaderViewController? {
         return VideosHeaderViewController(nibName: "VideosHeaderViewController", bundle: nil)
@@ -45,6 +47,12 @@ class VideosHeaderViewController: NSViewController {
     @IBAction func search(sender: NSSearchField) {
         if let callback = performSearch {
             callback(term: sender.stringValue)
+        }
+    }
+    
+    @IBAction func switchMode(sender: NSSegmentedControl) {
+        if let callback = switchMode {
+            callback(mode: sender.selectedSegment)
         }
     }
 }

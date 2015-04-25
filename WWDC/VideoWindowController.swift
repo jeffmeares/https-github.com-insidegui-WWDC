@@ -49,7 +49,12 @@ class VideoWindowController: NSWindowController {
                 }
             }
             
-            window?.title = "WWDC \(session.year) | \(session.title)"
+            if session.isSpecialEvent {
+                window?.title = "\(session.title) \(session.subtitle)"
+            } else {
+                window?.title = "WWDC \(session.year) | \(session.title)"
+            }
+            
         }
         
         NSNotificationCenter.defaultCenter().addObserverForName(NSWindowWillCloseNotification, object: self.window, queue: nil) { _ in
@@ -100,6 +105,10 @@ class VideoWindowController: NSWindowController {
     var boundaryObserver: AnyObject?
     
     func setupTranscriptSync(transcript: WWDCSessionTranscript) {
+        if transcript.timecodes.count == 0 {
+            return
+        }
+        
         boundaryObserver = player?.addBoundaryTimeObserverForTimes(transcript.timecodes, queue: dispatch_get_main_queue()) { [unowned self] in
             if self.transcriptWC == nil {
                 return

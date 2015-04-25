@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14D131" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D131" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7531"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7702"/>
     </dependencies>
     <scenes>
         <!--Application-->
@@ -848,12 +848,17 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                         </scroller>
                                     </scrollView>
+                                    <progressIndicator horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="e7E-e6-uEF">
+                                        <rect key="frame" x="217" y="142" width="32" height="32"/>
+                                    </progressIndicator>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstAttribute="centerY" secondItem="e7E-e6-uEF" secondAttribute="centerY" constant="8" id="EJ2-Wj-PR5"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="TBi-A8-b66"/>
                                     <constraint firstItem="TKd-X0-CX9" firstAttribute="top" secondItem="Rg6-r5-kXz" secondAttribute="top" id="UVo-UU-35P"/>
                                     <constraint firstAttribute="bottom" secondItem="TKd-X0-CX9" secondAttribute="bottom" id="Vij-AN-flu"/>
                                     <constraint firstAttribute="trailing" secondItem="TKd-X0-CX9" secondAttribute="trailing" id="dBt-00-1Ko"/>
+                                    <constraint firstAttribute="centerX" secondItem="e7E-e6-uEF" secondAttribute="centerX" constant="-8" id="fM1-VD-qn1"/>
                                     <constraint firstItem="TKd-X0-CX9" firstAttribute="leading" secondItem="Rg6-r5-kXz" secondAttribute="leading" id="uwU-8H-fal"/>
                                 </constraints>
                             </visualEffectView>
@@ -866,6 +871,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="progressIndicator" destination="e7E-e6-uEF" id="qkc-ot-4zg"/>
                         <outlet property="scrollView" destination="TKd-X0-CX9" id="ne4-Lz-uK3"/>
                         <outlet property="tableView" destination="hE6-m5-F6H" id="JrW-sy-d14"/>
                     </connections>
@@ -883,7 +889,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <customView horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="yfT-Gv-ICD" customClass="GRWindowMovingView">
-                                <rect key="frame" x="0.0" y="261" width="559" height="62"/>
+                                <rect key="frame" x="0.0" y="241" width="559" height="82"/>
                                 <subviews>
                                     <customView horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="unj-WU-zmU" customClass="SeparatorView" customModule="WWDC" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="559" height="1"/>
@@ -891,27 +897,11 @@
                                             <constraint firstAttribute="height" constant="1" id="4FJ-B6-QQc"/>
                                         </constraints>
                                     </customView>
-                                    <textField horizontalHuggingPriority="230" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="500" translatesAutoresizingMaskIntoConstraints="NO" id="OTC-kh-gjR">
-                                        <rect key="frame" x="18" y="28" width="492" height="18"/>
-                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="No session selected" id="UU1-bR-82g">
-                                            <font key="font" metaFont="systemBold" size="15"/>
-                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                        </textFieldCell>
-                                    </textField>
-                                    <textField horizontalHuggingPriority="230" verticalHuggingPriority="750" horizontalCompressionResistancePriority="500" verticalCompressionResistancePriority="500" translatesAutoresizingMaskIntoConstraints="NO" id="Q3D-NN-RLa">
-                                        <rect key="frame" x="18" y="12" width="492" height="14"/>
-                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Select a session to see It here" id="Jni-0L-ArF">
-                                            <font key="font" metaFont="smallSystem"/>
-                                            <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
-                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                        </textFieldCell>
-                                    </textField>
                                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="P5u-9c-sQG">
-                                        <rect key="frame" x="516" y="21" width="23" height="21"/>
+                                        <rect key="frame" x="516" y="31" width="23" height="21"/>
                                         <subviews>
                                             <progressIndicator horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" maxValue="100" bezeled="NO" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="Rfp-dR-Pi4">
-                                                <rect key="frame" x="3" y="2" width="16" height="16"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="16" height="16"/>
                                             </progressIndicator>
                                             <button toolTip="Download Video" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZoQ-nZ-mjo">
                                                 <rect key="frame" x="0.0" y="0.0" width="23" height="21"/>
@@ -929,6 +919,22 @@
                                             <constraint firstAttribute="height" constant="21" id="k8n-hE-P55"/>
                                         </constraints>
                                     </customView>
+                                    <textField horizontalHuggingPriority="230" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="500" translatesAutoresizingMaskIntoConstraints="NO" id="OTC-kh-gjR">
+                                        <rect key="frame" x="18" y="40" width="492" height="18"/>
+                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="No session selected" id="UU1-bR-82g">
+                                            <font key="font" metaFont="systemBold" size="15"/>
+                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                    <textField horizontalHuggingPriority="230" verticalHuggingPriority="750" horizontalCompressionResistancePriority="500" verticalCompressionResistancePriority="500" translatesAutoresizingMaskIntoConstraints="NO" id="Q3D-NN-RLa">
+                                        <rect key="frame" x="18" y="24" width="492" height="14"/>
+                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Select a session to see It here" id="Jni-0L-ArF">
+                                            <font key="font" metaFont="smallSystem"/>
+                                            <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="centerY" secondItem="P5u-9c-sQG" secondAttribute="centerY" constant="0.5" id="6ZD-H2-xIa"/>
@@ -939,9 +945,9 @@
                                     <constraint firstAttribute="bottom" secondItem="unj-WU-zmU" secondAttribute="bottom" id="QEa-2T-MZF"/>
                                     <constraint firstAttribute="trailing" secondItem="P5u-9c-sQG" secondAttribute="trailing" constant="20" id="U8f-pZ-DIf"/>
                                     <constraint firstItem="Q3D-NN-RLa" firstAttribute="leading" secondItem="yfT-Gv-ICD" secondAttribute="leading" constant="20" id="Zca-OP-8uv"/>
+                                    <constraint firstAttribute="bottom" secondItem="Q3D-NN-RLa" secondAttribute="bottom" constant="24" id="Zh3-Xc-8ED"/>
                                     <constraint firstItem="Q3D-NN-RLa" firstAttribute="top" secondItem="OTC-kh-gjR" secondAttribute="bottom" constant="2" id="cDD-E4-tFM"/>
-                                    <constraint firstItem="OTC-kh-gjR" firstAttribute="top" secondItem="yfT-Gv-ICD" secondAttribute="top" constant="16" id="fGc-c6-zbn"/>
-                                    <constraint firstAttribute="height" constant="62" id="hPH-mv-MND"/>
+                                    <constraint firstAttribute="height" constant="82" id="hPH-mv-MND"/>
                                     <constraint firstItem="OTC-kh-gjR" firstAttribute="leading" secondItem="yfT-Gv-ICD" secondAttribute="leading" constant="20" id="z1a-ii-utb"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
@@ -951,7 +957,7 @@
                                 </userDefinedRuntimeAttributes>
                             </customView>
                             <button hidden="YES" verticalHuggingPriority="50" translatesAutoresizingMaskIntoConstraints="NO" id="COw-ui-l2a">
-                                <rect key="frame" x="155" y="200" width="118" height="32"/>
+                                <rect key="frame" x="155" y="180" width="118" height="32"/>
                                 <buttonCell key="cell" type="push" title="Watch Video" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Xjs-Oy-GhI">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -961,7 +967,7 @@
                                 </connections>
                             </button>
                             <button hidden="YES" verticalHuggingPriority="50" translatesAutoresizingMaskIntoConstraints="NO" id="Ff7-FM-rkW">
-                                <rect key="frame" x="273" y="200" width="111" height="32"/>
+                                <rect key="frame" x="273" y="180" width="111" height="32"/>
                                 <buttonCell key="cell" type="push" title="View Slides" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="UpZ-Ii-Qdp">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -971,7 +977,7 @@
                                 </connections>
                             </button>
                             <button hidden="YES" verticalHuggingPriority="50" translatesAutoresizingMaskIntoConstraints="NO" id="Zfu-UV-fL8">
-                                <rect key="frame" x="384" y="200" width="161" height="32"/>
+                                <rect key="frame" x="384" y="180" width="161" height="32"/>
                                 <buttonCell key="cell" type="push" title="Mark as unwatched" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="pEg-S2-YVS">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -981,7 +987,7 @@
                                 </connections>
                             </button>
                             <button hidden="YES" verticalHuggingPriority="50" translatesAutoresizingMaskIntoConstraints="NO" id="KY0-ql-QWs">
-                                <rect key="frame" x="14" y="200" width="141" height="32"/>
+                                <rect key="frame" x="14" y="180" width="141" height="32"/>
                                 <buttonCell key="cell" type="push" title="Watch HD Video" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="D3d-bZ-Zck">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -991,7 +997,7 @@
                                 </connections>
                             </button>
                             <textField hidden="YES" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="TO1-x6-ead" customClass="GRTextField">
-                                <rect key="frame" x="18" y="236" width="190" height="17"/>
+                                <rect key="frame" x="18" y="216" width="190" height="17"/>
                                 <textFieldCell key="cell" selectable="YES" allowsUndo="NO" sendsActionOnEndEditing="YES" title="Session description goes here" id="IeT-9W-1pW">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>

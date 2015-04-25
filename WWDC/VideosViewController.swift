@@ -12,6 +12,15 @@ class VideosViewController: NSViewController, NSTableViewDelegate, NSTableViewDa
 
     @IBOutlet weak var scrollView: NSScrollView!
     @IBOutlet weak var tableView: NSTableView!
+    @IBOutlet weak var progressIndicator: NSProgressIndicator!
+    
+    enum ControllerMode {
+        case None
+        case Loading
+        case ShowingSessions
+        case ShowingEvents
+        case Error
+    }
     
     var indexOfLastSelectedRow = -1
     
@@ -20,11 +29,14 @@ class VideosViewController: NSViewController, NSTableViewDelegate, NSTableViewDa
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        mode = .Loading
+        
         setupScrollView()
         
         tableView.gridColor = Theme.WWDCTheme.separatorColor
         
         loadSessions()
+        loadEvents()
         
         let nc = NSNotificationCenter.defaultCenter()
         nc.addObserverForName(SessionProgressDidChangeNotification, object: nil, queue: nil) { _ in
@@ -49,6 +61,7 @@ class VideosViewController: NSViewController, NSTableViewDelegate, NSTableViewDa
             headerController.view.frame = CGRectMake(0, NSHeight(superview.frame)-insetHeight, NSWidth(superview.frame), insetHeight)
             headerController.view.autoresizingMask = NSAutoresizingMaskOptions.ViewWidthSizable | NSAutoresizingMaskOptions.ViewMinYMargin
             headerController.performSearch = search
+            headerController.switchMode = switchMode
         }
     }
 
@@ -56,17 +69,37 @@ class VideosViewController: NSViewController, NSTableViewDelegate, NSTableViewDa
         didSet {
             if sessions != nil {
                 headerController.enable()
+                progressIndicator.stopAnimation(nil)
             }
             reloadTablePreservingSelection()
+        }
+    }
+    
+    var loadedSessions: [Session]? {
+        didSet {
+            mode = wantedMode
+        }
+    }
+    var loadedEvents: [Session]? {
+        didSet {
+            mode = wantedMode
         }
     }
 
     // MARK: Session loading
     
     func loadSessions() {
-        DataStore.SharedStore.fetchSessions() { success, sessions in
+        DataStore.SharedStore.fetchSessions { success, sessions in
             dispatch_async(dispatch_get_main_queue()) {
-                self.sessions = sessions
+                self.loadedSessions = sessions
+            }
+        }
+    }
+    
+    func loadEvents() {
+        DataStore.SharedStore.fetchEvents { success, sessions in
+            dispatch_async(dispatch_get_main_queue()) {
+                self.loadedEvents = sessions
             }
         }
     }
@@ -96,10 +129,12 @@ class VideosViewController: NSViewController, NSTableViewDelegate, NSTableViewDa
         cell.titleField.stringValue = session.title
         cell.trackField.stringValue = session.track
         cell.platformsField.stringValue = ", ".join(session.focus)
-        cell.detailsField.stringValue = "\(session.year) - Session \(session.id)"
+        cell.detailsField.stringValue = session.subtitle
         cell.progressView.progress = DataStore.SharedStore.fetchSessionProgress(session)
         if let url = session.hd_url {
             cell.downloadedImage.hidden = !VideoStore.SharedStore().hasVideo(url)
+        } else {
+            cell.downloadedImage.hidden = true
         }
         
         return cell
@@ -133,6 +168,49 @@ class VideosViewController: NSViewController, NSTableViewDelegate, NSTableViewDa
             if let detailsVC = detailsViewController {
                 detailsVC.session = nil
             }
+        }
+    }
+    
+    var wantedMode = ControllerMode.ShowingSessions {
+        didSet {
+            if mode != .Loading && mode != .Error && mode != .None {
+                mode = wantedMode
+            }
+        }
+    }
+    var mode = ControllerMode.None {
+        didSet {
+            switch(mode) {
+            case .Loading:
+                progressIndicator.startAnimation(nil)
+            case .ShowingSessions:
+                if let lSessions = loadedSessions {
+                    progressIndicator.stopAnimation(nil)
+                    sessions = lSessions
+                } else {
+                    mode = .Loading
+                }
+            case .ShowingEvents:
+                if let lEvents = loadedEvents {
+                    progressIndicator.stopAnimation(nil)
+                    sessions = lEvents
+                } else {
+                    mode = .Loading
+                }
+            default:
+                break
+            }
+        }
+    }
+    
+    func switchMode(mode: Int) {
+        switch(mode) {
+        case 0:
+            self.wantedMode = .ShowingSessions
+        case 1:
+            self.wantedMode = .ShowingEvents
+        default:
+            break;
         }
     }
     
