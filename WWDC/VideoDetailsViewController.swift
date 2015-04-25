@@ -31,7 +31,7 @@ class VideoDetailsViewController: NSViewController {
     {
         if let session = self.session {
             titleLabel.stringValue = session.title
-            subtitleLabel.stringValue = "\(session.track) | Session \(session.id)"
+            subtitleLabel.stringValue = session.subtitle
             descriptionLabel.stringValue = session.description
             descriptionLabel.hidden = false
             watchVideoButton.hidden = false
