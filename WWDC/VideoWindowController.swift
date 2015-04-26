@@ -49,7 +49,7 @@ class VideoWindowController: NSWindowController {
                 }
             }
             
-            if session.isSpecialEvent {
+            if session.isKeynote {
                 window?.title = "\(session.title) \(session.subtitle)"
             } else {
                 window?.title = "WWDC \(session.year) | \(session.title)"

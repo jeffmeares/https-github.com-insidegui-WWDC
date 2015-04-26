@@ -127,8 +127,15 @@ class VideosViewController: NSViewController, NSTableViewDelegate, NSTableViewDa
         
         let session = displayedSessions[row]
         cell.titleField.stringValue = session.title
-        cell.trackField.stringValue = session.track
-        cell.platformsField.stringValue = ", ".join(session.focus)
+        if !session.isKeynote {
+            cell.trackField.hidden = false
+            cell.platformsField.hidden = false
+            cell.trackField.stringValue = session.track
+            cell.platformsField.stringValue = ", ".join(session.focus)
+        } else {
+            cell.trackField.hidden = true
+            cell.platformsField.hidden = true
+        }
         cell.detailsField.stringValue = session.subtitle
         cell.progressView.progress = DataStore.SharedStore.fetchSessionProgress(session)
         if let url = session.hd_url {

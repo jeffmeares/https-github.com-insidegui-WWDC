@@ -120,7 +120,7 @@ class DataStore: NSObject {
                         hd_url: nil)
                     
                     session.setSubtitle(jsonEvent["subtitle"].string!)
-                    session.setSpecialEvent(true)
+                    session.setKeynote(true)
                     
                     sessions.append(session)
                 }

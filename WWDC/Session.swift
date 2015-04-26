@@ -22,7 +22,7 @@ struct Session {
     var url: String
     var year: Int
     var hd_url: String?
-    var isSpecialEvent = false
+    var isKeynote = false
     
     private var settedSubtitle: String?
     var subtitle: String {
@@ -37,8 +37,8 @@ struct Session {
     mutating func setSubtitle(subtitle: String?) {
         settedSubtitle = subtitle
     }
-    mutating func setSpecialEvent(special: Bool) {
-        isSpecialEvent = special
+    mutating func setKeynote(keynote: Bool) {
+        isKeynote = keynote
     }
     
     var progress: Double {
@@ -62,7 +62,7 @@ struct Session {
     
     var progressKey: String {
         get {
-            if isSpecialEvent {
+            if isKeynote {
                 return "\(title)-\(subtitle)-progress"
             } else {
                 return "\(year)-\(id)-progress"
@@ -71,7 +71,7 @@ struct Session {
     }
     var currentPositionKey: String {
         get {
-            if isSpecialEvent {
+            if isKeynote {
                 return "\(title)-\(subtitle)-currentPosition"
             } else {
                 return "\(year)-\(id)-currentPosition"
